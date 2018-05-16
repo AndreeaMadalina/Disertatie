@@ -1,0 +1,5 @@
+*.suo
+*.mdf
+*.ldf
+AplicatieDisertatie/AplicatieDisertatie/bin
+AplicatieDisertatie/AplicatieDisertatie/obj/Debug
