@@ -24,7 +24,7 @@ namespace AplicatieDisertatie
 					  "~/Scripts/respond.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
-					  "~/Content/bootstrap.css",
+					  "~/Content/bootstrap-minty.css",
 					  "~/Content/site.css"));
 		}
 	}
