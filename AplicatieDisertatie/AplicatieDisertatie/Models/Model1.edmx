@@ -73,7 +73,7 @@
           <Property Name="FileId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="AuthorId" Type="nvarchar" MaxLength="128" Nullable="false" />
           <Property Name="FileName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="TemplateFile" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TemplateFile" Type="nvarchar(max)" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Question">
@@ -492,7 +492,7 @@
           <Property Name="FileId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AuthorId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
           <Property Name="FileName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="TemplateFile" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TemplateFile" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="Model.FK_File_AspNetUsers" FromRole="File" ToRole="AspNetUser" />
           <NavigationProperty Name="ResponseFiles" Relationship="Model.FK_ResponseFile_File" FromRole="File" ToRole="ResponseFile" />

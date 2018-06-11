@@ -15,6 +15,10 @@ namespace AplicatieDisertatie.DAL
 		private GenericRepository<AspNetUserLogin> _userLoginRepository;
 		private GenericRepository<File> _fileRepository;
 		private GenericRepository<ResponseFile> _responseFileRepository;
+		private GenericRepository<Question> _questionRepository;
+		private GenericRepository<QuestionOption> _questionOptionRepository;
+		private GenericRepository<QuestionType> _questionTypeRepository;
+		private GenericRepository<UserAnswer> _userAnswerRepository;
 
 
 		public GenericRepository<AspNetUser> UserRepository => _userRepository ?? new GenericRepository<AspNetUser>(_context);
@@ -28,6 +32,14 @@ namespace AplicatieDisertatie.DAL
 		public GenericRepository<File> FileRepository => _fileRepository ?? new GenericRepository<File>(_context);
 
 		public GenericRepository<ResponseFile> ResponseFileRepository => _responseFileRepository ?? new GenericRepository<ResponseFile>(_context);
+
+		public GenericRepository<Question> QuestionRepository => _questionRepository ?? new GenericRepository<Question>(_context);
+
+		public GenericRepository<QuestionOption> QuestionOptionRepository => _questionOptionRepository ?? new GenericRepository<QuestionOption>(_context);
+
+		public GenericRepository<QuestionType> QuestionTypeRepository => _questionTypeRepository ?? new GenericRepository<QuestionType>(_context);
+
+		public GenericRepository<UserAnswer> UserAnswerRepository => _userAnswerRepository ?? new GenericRepository<UserAnswer>(_context);
 
 
 		public void Save()
