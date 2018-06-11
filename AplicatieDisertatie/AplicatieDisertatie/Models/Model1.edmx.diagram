@@ -18,6 +18,15 @@
         <AssociationConnector Association="Model.FK_File_AspNetUsers" />
         <AssociationConnector Association="Model.FK_ResponseFile_AspNetUsers" />
         <AssociationConnector Association="Model.FK_ResponseFile_File" />
+        <EntityTypeShape EntityType="Model.Question" Width="1.5" PointX="7.5" PointY="7.5" />
+        <EntityTypeShape EntityType="Model.QuestionOption" Width="1.5" PointX="9.75" PointY="7.625" />
+        <EntityTypeShape EntityType="Model.QuestionType" Width="1.5" PointX="5.25" PointY="9.875" />
+        <EntityTypeShape EntityType="Model.UserAnswer" Width="1.5" PointX="12" PointY="4.625" />
+        <AssociationConnector Association="Model.FK_UserAnswer_AspNetUsers" />
+        <AssociationConnector Association="Model.FK_Question_File" />
+        <AssociationConnector Association="Model.FK_Question_QuestionType" />
+        <AssociationConnector Association="Model.FK_QuestionOption_Question" />
+        <AssociationConnector Association="Model.FK_UserAnswer_QuestionOption" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

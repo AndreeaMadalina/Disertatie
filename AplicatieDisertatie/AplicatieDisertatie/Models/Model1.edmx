@@ -76,6 +76,31 @@
           <Property Name="TemplateFile" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
         </EntityType>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileId" Type="int" Nullable="false" />
+          <Property Name="TypeId" Type="int" Nullable="false" />
+          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuestionOption">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="QuestionId" Type="int" Nullable="false" />
+          <Property Name="Answer" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IsValid" Type="bit" />
+        </EntityType>
+        <EntityType Name="QuestionType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="ResponseFile">
           <Key>
             <PropertyRef Name="ResponseFileId" />
@@ -85,6 +110,15 @@
           <Property Name="FileId" Type="int" Nullable="false" />
           <Property Name="File" Type="nvarchar(max)" Nullable="false" />
           <Property Name="UpdatedOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserAnswer">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="OptionId" Type="int" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" />
         </EntityType>
         <Association Name="FK_AspNetUserRoles_AspNetRoles">
           <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1" />
@@ -150,6 +184,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Question_File">
+          <End Role="File" Type="Self.File" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="FileId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_QuestionType">
+          <End Role="QuestionType" Type="Self.QuestionType" Multiplicity="1" />
+          <End Role="Question" Type="Self.Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestionOption_Question">
+          <End Role="Question" Type="Self.Question" Multiplicity="1" />
+          <End Role="QuestionOption" Type="Self.QuestionOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="QuestionOption">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_ResponseFile_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="ResponseFile" Type="Self.ResponseFile" Multiplicity="*" />
@@ -174,6 +244,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_UserAnswer_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="UserAnswer" Type="Self.UserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAnswer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAnswer_QuestionOption">
+          <End Role="QuestionOption" Type="Self.QuestionOption" Multiplicity="1" />
+          <End Role="UserAnswer" Type="Self.UserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionOption">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="UserAnswer">
+              <PropertyRef Name="OptionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="ModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
@@ -182,7 +276,11 @@
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="File" EntityType="Self.File" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Question" EntityType="Self.Question" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionOption" EntityType="Self.QuestionOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestionType" EntityType="Self.QuestionType" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ResponseFile" EntityType="Self.ResponseFile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserAnswer" EntityType="Self.UserAnswer" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_AspNetUserRoles_AspNetRoles" Association="Self.FK_AspNetUserRoles_AspNetRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
@@ -203,6 +301,18 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="File" EntitySet="File" />
           </AssociationSet>
+          <AssociationSet Name="FK_Question_File" Association="Self.FK_Question_File">
+            <End Role="File" EntitySet="File" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_QuestionType" Association="Self.FK_Question_QuestionType">
+            <End Role="QuestionType" EntitySet="QuestionType" />
+            <End Role="Question" EntitySet="Question" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestionOption_Question" Association="Self.FK_QuestionOption_Question">
+            <End Role="Question" EntitySet="Question" />
+            <End Role="QuestionOption" EntitySet="QuestionOption" />
+          </AssociationSet>
           <AssociationSet Name="FK_ResponseFile_AspNetUsers" Association="Self.FK_ResponseFile_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="ResponseFile" EntitySet="ResponseFile" />
@@ -210,6 +320,14 @@
           <AssociationSet Name="FK_ResponseFile_File" Association="Self.FK_ResponseFile_File">
             <End Role="File" EntitySet="File" />
             <End Role="ResponseFile" EntitySet="ResponseFile" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAnswer_AspNetUsers" Association="Self.FK_UserAnswer_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="UserAnswer" EntitySet="UserAnswer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAnswer_QuestionOption" Association="Self.FK_UserAnswer_QuestionOption">
+            <End Role="QuestionOption" EntitySet="QuestionOption" />
+            <End Role="UserAnswer" EntitySet="UserAnswer" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -276,6 +394,7 @@
           <NavigationProperty Name="AspNetRoles" Relationship="Model.AspNetUserRoles1" FromRole="AspNetUser" ToRole="AspNetRole" />
           <NavigationProperty Name="Files" Relationship="Model.FK_File_AspNetUsers" FromRole="AspNetUser" ToRole="File" />
           <NavigationProperty Name="ResponseFiles" Relationship="Model.FK_ResponseFile_AspNetUsers" FromRole="AspNetUser" ToRole="ResponseFile" />
+          <NavigationProperty Name="UserAnswers" Relationship="Model.FK_UserAnswer_AspNetUsers" FromRole="AspNetUser" ToRole="UserAnswer" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUser" Multiplicity="1">
@@ -337,6 +456,30 @@
             <End Role="File" EntitySet="Files" />
             <End Role="ResponseFile" EntitySet="ResponseFiles" />
           </AssociationSet>
+          <EntitySet Name="Questions" EntityType="Model.Question" />
+          <EntitySet Name="QuestionOptions" EntityType="Model.QuestionOption" />
+          <EntitySet Name="QuestionTypes" EntityType="Model.QuestionType" />
+          <EntitySet Name="UserAnswers" EntityType="Model.UserAnswer" />
+          <AssociationSet Name="FK_UserAnswer_AspNetUsers" Association="Model.FK_UserAnswer_AspNetUsers">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="UserAnswer" EntitySet="UserAnswers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_File" Association="Model.FK_Question_File">
+            <End Role="File" EntitySet="Files" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Question_QuestionType" Association="Model.FK_Question_QuestionType">
+            <End Role="QuestionType" EntitySet="QuestionTypes" />
+            <End Role="Question" EntitySet="Questions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestionOption_Question" Association="Model.FK_QuestionOption_Question">
+            <End Role="Question" EntitySet="Questions" />
+            <End Role="QuestionOption" EntitySet="QuestionOptions" />
+          </AssociationSet>
+          <AssociationSet Name="FK_UserAnswer_QuestionOption" Association="Model.FK_UserAnswer_QuestionOption">
+            <End Role="QuestionOption" EntitySet="QuestionOptions" />
+            <End Role="UserAnswer" EntitySet="UserAnswers" />
+          </AssociationSet>
         </EntityContainer>
         <Association Name="AspNetUserRoles1">
           <End Type="Model.AspNetRole" Role="AspNetRole" Multiplicity="*" />
@@ -353,6 +496,7 @@
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="Model.FK_File_AspNetUsers" FromRole="File" ToRole="AspNetUser" />
           <NavigationProperty Name="ResponseFiles" Relationship="Model.FK_ResponseFile_File" FromRole="File" ToRole="ResponseFile" />
+          <NavigationProperty Name="Questions" Relationship="Model.FK_Question_File" FromRole="File" ToRole="Question" />
         </EntityType>
         <EntityType Name="ResponseFile">
           <Key>
@@ -399,6 +543,108 @@
             </Principal>
             <Dependent Role="ResponseFile">
               <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Question">
+          <Key>
+            <PropertyRef Name="QuestionId" />
+          </Key>
+          <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileId" Type="Int32" Nullable="false" />
+          <Property Name="TypeId" Type="Int32" Nullable="false" />
+          <Property Name="Question1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="File" Relationship="Model.FK_Question_File" FromRole="Question" ToRole="File" />
+          <NavigationProperty Name="QuestionType" Relationship="Model.FK_Question_QuestionType" FromRole="Question" ToRole="QuestionType" />
+          <NavigationProperty Name="QuestionOptions" Relationship="Model.FK_QuestionOption_Question" FromRole="Question" ToRole="QuestionOption" />
+        </EntityType>
+        <EntityType Name="QuestionOption">
+          <Key>
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="OptionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="QuestionId" Type="Int32" Nullable="false" />
+          <Property Name="Answer" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsValid" Type="Boolean" />
+          <NavigationProperty Name="Question" Relationship="Model.FK_QuestionOption_Question" FromRole="QuestionOption" ToRole="Question" />
+          <NavigationProperty Name="UserAnswers" Relationship="Model.FK_UserAnswer_QuestionOption" FromRole="QuestionOption" ToRole="UserAnswer" />
+        </EntityType>
+        <EntityType Name="QuestionType">
+          <Key>
+            <PropertyRef Name="TypeId" />
+          </Key>
+          <Property Name="TypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Questions" Relationship="Model.FK_Question_QuestionType" FromRole="QuestionType" ToRole="Question" />
+        </EntityType>
+        <EntityType Name="UserAnswer">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="OptionId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="OptionId" Type="Int32" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUser" Relationship="Model.FK_UserAnswer_AspNetUsers" FromRole="UserAnswer" ToRole="AspNetUser" />
+          <NavigationProperty Name="QuestionOption" Relationship="Model.FK_UserAnswer_QuestionOption" FromRole="UserAnswer" ToRole="QuestionOption" />
+        </EntityType>
+        <Association Name="FK_UserAnswer_AspNetUsers">
+          <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="Model.UserAnswer" Role="UserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserAnswer">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_File">
+          <End Type="Model.File" Role="File" Multiplicity="1" />
+          <End Type="Model.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="File">
+              <PropertyRef Name="FileId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="FileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Question_QuestionType">
+          <End Type="Model.QuestionType" Role="QuestionType" Multiplicity="1" />
+          <End Type="Model.Question" Role="Question" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionType">
+              <PropertyRef Name="TypeId" />
+            </Principal>
+            <Dependent Role="Question">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestionOption_Question">
+          <End Type="Model.Question" Role="Question" Multiplicity="1" />
+          <End Type="Model.QuestionOption" Role="QuestionOption" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Question">
+              <PropertyRef Name="QuestionId" />
+            </Principal>
+            <Dependent Role="QuestionOption">
+              <PropertyRef Name="QuestionId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_UserAnswer_QuestionOption">
+          <End Type="Model.QuestionOption" Role="QuestionOption" Multiplicity="1" />
+          <End Type="Model.UserAnswer" Role="UserAnswer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="QuestionOption">
+              <PropertyRef Name="OptionId" />
+            </Principal>
+            <Dependent Role="UserAnswer">
+              <PropertyRef Name="OptionId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -490,6 +736,43 @@
                 <ScalarProperty Name="FileId" ColumnName="FileId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="ResponseFileId" ColumnName="ResponseFileId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Questions">
+            <EntityTypeMapping TypeName="Model.Question">
+              <MappingFragment StoreEntitySet="Question">
+                <ScalarProperty Name="Question1" ColumnName="Question" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+                <ScalarProperty Name="FileId" ColumnName="FileId" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionOptions">
+            <EntityTypeMapping TypeName="Model.QuestionOption">
+              <MappingFragment StoreEntitySet="QuestionOption">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="Answer" ColumnName="Answer" />
+                <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestionTypes">
+            <EntityTypeMapping TypeName="Model.QuestionType">
+              <MappingFragment StoreEntitySet="QuestionType">
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="TypeId" ColumnName="TypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserAnswers">
+            <EntityTypeMapping TypeName="Model.UserAnswer">
+              <MappingFragment StoreEntitySet="UserAnswer">
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="OptionId" ColumnName="OptionId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

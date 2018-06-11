@@ -32,5 +32,9 @@ namespace AplicatieDisertatie.Models
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<File> Files { get; set; }
         public virtual DbSet<ResponseFile> ResponseFiles { get; set; }
+        public virtual DbSet<Question> Questions { get; set; }
+        public virtual DbSet<QuestionOption> QuestionOptions { get; set; }
+        public virtual DbSet<QuestionType> QuestionTypes { get; set; }
+        public virtual DbSet<UserAnswer> UserAnswers { get; set; }
     }
 }

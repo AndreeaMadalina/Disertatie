@@ -22,6 +22,7 @@ namespace AplicatieDisertatie.Models
             this.AspNetRoles = new HashSet<AspNetRole>();
             this.Files = new HashSet<File>();
             this.ResponseFiles = new HashSet<ResponseFile>();
+            this.UserAnswers = new HashSet<UserAnswer>();
         }
     
         public string Id { get; set; }
@@ -47,5 +48,7 @@ namespace AplicatieDisertatie.Models
         public virtual ICollection<File> Files { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ResponseFile> ResponseFiles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<UserAnswer> UserAnswers { get; set; }
     }
 }

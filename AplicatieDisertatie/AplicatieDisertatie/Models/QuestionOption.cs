@@ -12,25 +12,21 @@ namespace AplicatieDisertatie.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class File
+    public partial class QuestionOption
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public File()
+        public QuestionOption()
         {
-            this.ResponseFiles = new HashSet<ResponseFile>();
-            this.Questions = new HashSet<Question>();
+            this.UserAnswers = new HashSet<UserAnswer>();
         }
     
-        public int FileId { get; set; }
-        public string AuthorId { get; set; }
-        public string FileName { get; set; }
-        public string TemplateFile { get; set; }
-        public System.DateTime UpdatedOn { get; set; }
+        public int OptionId { get; set; }
+        public int QuestionId { get; set; }
+        public string Answer { get; set; }
+        public Nullable<bool> IsValid { get; set; }
     
-        public virtual AspNetUser AspNetUser { get; set; }
+        public virtual Question Question { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<ResponseFile> ResponseFiles { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Question> Questions { get; set; }
+        public virtual ICollection<UserAnswer> UserAnswers { get; set; }
     }
 }
