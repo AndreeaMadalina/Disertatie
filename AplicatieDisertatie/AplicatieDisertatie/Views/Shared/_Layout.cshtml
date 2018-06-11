@@ -9,7 +9,7 @@
 
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg nav-fill fixed-top navbar-dark bg-dark">
+	<nav class="navbar navbar-expand-lg nav-fill fixed-top navbar-dark bg-primary">
 		<nav class="container-fluid">
 			@Html.ActionLink("AnswerFeed", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
 
@@ -20,19 +20,19 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })</li>
+					@*<li class="nav-item active">@Html.ActionLink("Home", "Index", "Home", new { @class = "nav-link" })</li>*@
 					<li class="nav-item active">@Html.ActionLink("About", "About", "Home", new { @class = "nav-link" })</li>
 					<li class="nav-item active">@Html.ActionLink("Contact", "Contact", "Home", new { @class = "nav-link" })</li>
 					<li class="nav-item dropdown">
-						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<a class="nav-link dropdown-toggler" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Files
 						</a>
-						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-							<a class="dropdown-item" href="#">Create File</a>
-							<a class="dropdown-item" href="#">View Files</a>
-							<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="#">Something else here</a>
-						</div>
+						<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<li class="dropdown-item" href="#">Create File</li>
+							<li class="dropdown-item active">@Html.ActionLink("View Files", "Index", "File", new { area = "" }, new { @class = "nav-link" })</li>
+							<li class="dropdown-divider"></li>
+								<li class="dropdown-item" href="#">Something else here</li>
+						</ul>
 					</li>
 				</ul>
 

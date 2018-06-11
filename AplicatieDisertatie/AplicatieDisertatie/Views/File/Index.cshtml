@@ -1,0 +1,58 @@
+﻿@model List<AplicatieDisertatie.Models.FileViewModel>
+
+@{
+	ViewBag.Title = "View Files";
+	//Layout = "~/ Views / Shared / _Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayName("FieldId")
+        </th>
+        <th>
+            @Html.DisplayName("AuthorId")
+        </th>
+        <th>
+            @Html.DisplayName("FileName")
+        </th>
+        <th>
+            @Html.DisplayName("TemplateFile")
+        </th>
+        <th>
+            @Html.DisplayName("UpdatedOn")
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AuthorId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FileName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TemplateFile)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedOn)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

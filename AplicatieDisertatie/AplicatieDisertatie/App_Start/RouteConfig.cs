@@ -13,6 +13,9 @@ namespace AplicatieDisertatie
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+			// Use attribute routing instead of magic strings
+			routes.MapMvcAttributeRoutes();
+
 			routes.MapRoute(
 				name: "Default",
 				url: "{controller}/{action}/{id}",

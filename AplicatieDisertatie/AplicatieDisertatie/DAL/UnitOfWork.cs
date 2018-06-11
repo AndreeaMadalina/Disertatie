@@ -13,6 +13,8 @@ namespace AplicatieDisertatie.DAL
 		private GenericRepository<AspNetRole> _roleRepository;
 		private GenericRepository<AspNetUserClaim> _userClaimRepository;
 		private GenericRepository<AspNetUserLogin> _userLoginRepository;
+		private GenericRepository<File> _fileRepository;
+		private GenericRepository<ResponseFile> _responseFileRepository;
 
 
 		public GenericRepository<AspNetUser> UserRepository => _userRepository ?? new GenericRepository<AspNetUser>(_context);
@@ -22,6 +24,10 @@ namespace AplicatieDisertatie.DAL
 		public GenericRepository<AspNetUserClaim> UserClaimRepository => _userClaimRepository ?? new GenericRepository<AspNetUserClaim>(_context);
 
 		public GenericRepository<AspNetUserLogin> UserLoginRepository => _userLoginRepository ?? new GenericRepository<AspNetUserLogin>(_context);
+
+		public GenericRepository<File> FileRepository => _fileRepository ?? new GenericRepository<File>(_context);
+
+		public GenericRepository<ResponseFile> ResponseFileRepository => _responseFileRepository ?? new GenericRepository<ResponseFile>(_context);
 
 
 		public void Save()
