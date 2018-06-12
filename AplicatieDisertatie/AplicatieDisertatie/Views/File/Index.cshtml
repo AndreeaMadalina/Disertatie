@@ -16,13 +16,10 @@
             @Html.DisplayName("FieldId")
         </th>
         <th>
-            @Html.DisplayName("AuthorId")
+            @Html.DisplayName("UserName")
         </th>
         <th>
             @Html.DisplayName("FileName")
-        </th>
-        <th>
-            @Html.DisplayName("TemplateFile")
         </th>
         <th>
             @Html.DisplayName("UpdatedOn")
@@ -36,13 +33,10 @@
             @Html.DisplayFor(modelItem => item.FileId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.AuthorId)
+            @Html.DisplayFor(modelItem => item.AspNetUser.UserName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.FileName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TemplateFile)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.UpdatedOn)

@@ -26,14 +26,10 @@ namespace AplicatieDisertatie.Controllers
 					AuthorId = item.AuthorId,
 					FileName = item.FileName,
 					TemplateFile = item.TemplateFile,
-					UpdatedOn = item.UpdatedOn
+					UpdatedOn = item.UpdatedOn,
+					AspNetUser = item.AspNetUser
 				});
 			}
-
-			//if(files == null || files.Count() == 0)
-			//{
-			//	return new EmptyResult();
-			//}
 
             return View(viewFiles);
         }
