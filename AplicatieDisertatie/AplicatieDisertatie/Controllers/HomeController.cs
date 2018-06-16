@@ -26,5 +26,12 @@ namespace AplicatieDisertatie.Controllers
 
 			return View();
 		}
+
+        public ActionResult Booking()
+        {
+            ViewBag.Message = "Booking page";
+
+            return View();
+        }
 	}
 }
