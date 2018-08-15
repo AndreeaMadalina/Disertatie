@@ -7,6 +7,13 @@ namespace AplicatieDisertatie.Models
 {
 	public class FileViewModel
 	{
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+		public FileViewModel()
+		{
+			this.ResponseFiles = new HashSet<ResponseFileViewModel>();
+			this.Questions = new HashSet<QuestionViewModel>();
+		}
+
 		public int FileId { get; set; }
 		public string AuthorId { get; set; }
 		public string FileName { get; set; }
@@ -15,6 +22,8 @@ namespace AplicatieDisertatie.Models
 
 		public virtual AspNetUser AspNetUser { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<ResponseFile> ResponseFiles { get; set; }
+		public virtual ICollection<ResponseFileViewModel> ResponseFiles { get; set; }
+		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+		public virtual ICollection<QuestionViewModel> Questions { get; set; }
 	}
 }

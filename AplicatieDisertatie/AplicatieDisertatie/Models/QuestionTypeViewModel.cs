@@ -8,15 +8,15 @@ namespace AplicatieDisertatie.Models
 	public class QuestionTypeViewModel
 	{
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-		public QuestionType()
+		public QuestionTypeViewModel()
 		{
-			this.Questions = new HashSet<Question>();
+			this.Questions = new HashSet<QuestionViewModel>();
 		}
 
 		public int TypeId { get; set; }
 		public string Type { get; set; }
 
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-		public virtual ICollection<Question> Questions { get; set; }
+		public virtual ICollection<QuestionViewModel> Questions { get; set; }
 	}
 }

@@ -33,5 +33,51 @@ namespace AplicatieDisertatie.Controllers
 
             return View(viewFiles);
         }
+
+		public ActionResult OpenFile(int id)
+		{
+			var file = _unitOfWork.FileRepository.GetByID(id);
+
+			var questionList = new List<QuestionViewModel>();
+
+			foreach (var item in file.Questions)
+			{
+				var optionList = new List<QuestionOptionViewModel>();
+
+				foreach (var o in item.QuestionOptions)
+				{
+					optionList.Add(new QuestionOptionViewModel
+					{
+						Answer = o.Answer,
+						IsValid = o.IsValid,
+						OptionId = o.OptionId
+					});
+				}
+
+				questionList.Add(new QuestionViewModel
+				{
+					File = item.File,
+					QuestionText = item.QuestionText,
+					FileId = item.FileId,
+					QuestionId = item.QuestionId,
+					QuestionType = item.QuestionType,
+					TypeId = item.TypeId,
+					QuestionOptions = optionList
+				});
+			}
+
+			var viewFile = new FileViewModel
+			{
+				FileId = file.FileId,
+				AuthorId = file.AuthorId,
+				FileName = file.FileName,
+				TemplateFile = file.TemplateFile,
+				UpdatedOn = file.UpdatedOn,
+				AspNetUser = file.AspNetUser,
+				Questions = questionList
+			};
+
+			return View(viewFile);
+		}
     }
 }

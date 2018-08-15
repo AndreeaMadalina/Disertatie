@@ -12,6 +12,6 @@ namespace AplicatieDisertatie.Models
 		public string Text { get; set; }
 
 		public virtual AspNetUser AspNetUser { get; set; }
-		public virtual QuestionOption QuestionOption { get; set; }
+		public virtual QuestionOptionViewModel QuestionOption { get; set; }
 	}
 }

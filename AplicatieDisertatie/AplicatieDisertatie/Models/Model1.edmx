@@ -83,7 +83,7 @@
           <Property Name="QuestionId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FileId" Type="int" Nullable="false" />
           <Property Name="TypeId" Type="int" Nullable="false" />
-          <Property Name="Question" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="QuestionText" Type="nvarchar(max)" Nullable="false" />
         </EntityType>
         <EntityType Name="QuestionOption">
           <Key>
@@ -553,10 +553,10 @@
           <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileId" Type="Int32" Nullable="false" />
           <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <Property Name="Question1" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="File" Relationship="Model.FK_Question_File" FromRole="Question" ToRole="File" />
           <NavigationProperty Name="QuestionType" Relationship="Model.FK_Question_QuestionType" FromRole="Question" ToRole="QuestionType" />
           <NavigationProperty Name="QuestionOptions" Relationship="Model.FK_QuestionOption_Question" FromRole="Question" ToRole="QuestionOption" />
+          <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="QuestionOption">
           <Key>
@@ -742,7 +742,7 @@
           <EntitySetMapping Name="Questions">
             <EntityTypeMapping TypeName="Model.Question">
               <MappingFragment StoreEntitySet="Question">
-                <ScalarProperty Name="Question1" ColumnName="Question" />
+                <ScalarProperty Name="QuestionText" ColumnName="QuestionText" />
                 <ScalarProperty Name="TypeId" ColumnName="TypeId" />
                 <ScalarProperty Name="FileId" ColumnName="FileId" />
                 <ScalarProperty Name="QuestionId" ColumnName="QuestionId" />

@@ -31,7 +31,7 @@
 							<li class="dropdown-item" href="#">Create File</li>
 							<li class="dropdown-item active">@Html.ActionLink("View Files", "Index", "File", new { area = "" }, new { @class = "nav-link" })</li>
 							<li class="dropdown-divider"></li>
-								<li class="dropdown-item" href="#">Something else here</li>
+							<li class="dropdown-item" href="#">Something else here</li>
 						</ul>
 					</li>
 				</ul>
@@ -55,6 +55,7 @@
 
 	@Scripts.Render("~/bundles/jquery")
 	@Scripts.Render("~/bundles/bootstrap")
+	@Scripts.Render("~/bundles/datetime")
 	@RenderSection("scripts", required: false)
 </body>
 </html>
