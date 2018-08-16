@@ -508,7 +508,7 @@
           <Property Name="File" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="UpdatedOn" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="AspNetUser" Relationship="Model.FK_ResponseFile_AspNetUsers" FromRole="ResponseFile" ToRole="AspNetUser" />
-          <NavigationProperty Name="File1" Relationship="Model.FK_ResponseFile_File" FromRole="ResponseFile" ToRole="File" />
+          <NavigationProperty Name="File_Response" Relationship="Model.FK_ResponseFile_File" FromRole="ResponseFile" ToRole="File" />
         </EntityType>
         <Association Name="FK_File_AspNetUsers">
           <End Type="Model.AspNetUser" Role="AspNetUser" Multiplicity="1" />
@@ -553,7 +553,7 @@
           <Property Name="QuestionId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FileId" Type="Int32" Nullable="false" />
           <Property Name="TypeId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="File" Relationship="Model.FK_Question_File" FromRole="Question" ToRole="File" />
+          <NavigationProperty Name="File_Question" Relationship="Model.FK_Question_File" FromRole="Question" ToRole="File" />
           <NavigationProperty Name="QuestionType" Relationship="Model.FK_Question_QuestionType" FromRole="Question" ToRole="QuestionType" />
           <NavigationProperty Name="QuestionOptions" Relationship="Model.FK_QuestionOption_Question" FromRole="Question" ToRole="QuestionOption" />
           <Property Name="QuestionText" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />

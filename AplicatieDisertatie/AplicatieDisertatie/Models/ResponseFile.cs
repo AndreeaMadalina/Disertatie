@@ -21,6 +21,6 @@ namespace AplicatieDisertatie.Models
         public System.DateTime UpdatedOn { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
-        public virtual File File1 { get; set; }
+        public virtual File File_Response { get; set; }
     }
 }

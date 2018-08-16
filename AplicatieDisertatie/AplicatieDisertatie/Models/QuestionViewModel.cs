@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -16,7 +17,12 @@ namespace AplicatieDisertatie.Models
 		public int QuestionId { get; set; }
 		public int FileId { get; set; }
 		public int TypeId { get; set; }
+
+		[Required]
 		public string QuestionText { get; set; }
+
+		[Required]
+		public int AnswersNo { get; set; }
 
 		public virtual File File { get; set; }
 		public virtual QuestionType QuestionType { get; set; }

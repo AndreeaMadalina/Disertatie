@@ -1,0 +1,21 @@
+﻿@model AplicatieDisertatie.Models.QuestionViewModel
+
+@{
+	Layout = null;
+}
+
+@*<div class="col-md-10">*@
+	@*@Html.Hidden("Questions_@(Model.QuestionVM.FileId)__QuestionText", Model.QuestionOptionVM.OptionId, htmlAttributes : new { @class="iHidden" })
+<p>test</p>*@
+	@*@Html.EditorFor(model => model.QuestionOptionVM, new { @class = "form-control" })
+	@Html.ValidationMessageFor(model => model.QuestionOptionVM.Answer, "", new { @class = "text-danger" })*@
+	@*<input type='text' id='Questions_@(Model.QuestionVM.FileId)__QuestionText' class="iHidden" name='Questions[@Model.QuestionVM.FileId].QuestionText' />*@
+@*</div>*@
+
+
+<tr>
+	<td>
+		<input type="hidden" id="Questions_@(Model.FileId)__FieldId" class="iHidden" name='Questions[@Model.FileId].FieldId' />
+		<input type='text' id='Questions_@(Model.FileId)__QuestionText' name='Questions[@Model.FileId].QuestionText' />
+	</td>
+</tr>

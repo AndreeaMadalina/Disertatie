@@ -56,7 +56,7 @@ namespace AplicatieDisertatie.Controllers
 
 				questionList.Add(new QuestionViewModel
 				{
-					File = item.File,
+					File = item.File_Question,
 					QuestionText = item.QuestionText,
 					FileId = item.FileId,
 					QuestionId = item.QuestionId,
@@ -79,5 +79,5 @@ namespace AplicatieDisertatie.Controllers
 
 			return View(viewFile);
 		}
-    }
+	}
 }

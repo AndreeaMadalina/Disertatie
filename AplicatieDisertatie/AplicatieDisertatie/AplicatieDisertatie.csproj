@@ -194,6 +194,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CreateFileController.cs" />
     <Compile Include="Controllers\FileController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -216,6 +217,7 @@
     <Compile Include="Models\AspNetUserLogin.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommonViewModel.cs" />
     <Compile Include="Models\C__MigrationHistory.cs">
       <DependentUpon>Model1.tt</DependentUpon>
     </Compile>
@@ -388,9 +390,13 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\File\Index.cshtml" />
     <Content Include="Views\File\OpenFile.cshtml" />
+    <Content Include="Views\CreateFile\Create.cshtml" />
+    <Content Include="Views\CreateFile\Partial\AddNewQuestion.cshtml" />
+    <Content Include="Views\CreateFile\Partial\AddNewQuestionPopUp.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\File\Partial\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
