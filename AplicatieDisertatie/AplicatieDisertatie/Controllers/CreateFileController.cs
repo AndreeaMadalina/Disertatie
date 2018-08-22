@@ -75,7 +75,12 @@ namespace AplicatieDisertatie.Controllers
 		[HttpPost]
 		public ActionResult AddNewQuestion(CommonViewModel cm)
 		{
-			return View(this);
+			//CommonViewModel cvm = new CommonViewModel { QuestionList = new List<QuestionViewModel>() };
+			//cvm.QuestionList.Add(new QuestionViewModel { QuestionId = 1, QuestionText = "Test" });
+
+
+
+			return View("~/Views/CreateFile/Partial/AddNewQuestion.cshtml", cm);
 		}
 
 	}

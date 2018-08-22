@@ -36,25 +36,21 @@
 			</div>
 		</div>
 
-		<div class="form-group" style="white-space:nowrap">
-			@*@Html.LabelFor(m => m.QuestionTypeVM.Type, new { @class = "col-md-2 control-label" })
-		<div class="col-md-6">
-			@Html.DropDownListFor(model => model.QuestionTypeVM.TypeId, (SelectList)ViewBag.QuestionTypes, "    ", new { @class = "form-control displayedQuestionTypes" })
-			@Html.HiddenFor(m => m.QuestionTypeVM.Type, new { @class = "displayedQuestionTypesText form-control" })
-		</div>*@
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<button type="button"
+						class="btn btn-primary"
+						href="#addNewQuestionPopup"
+						data-toggle="modal">
+					Add question
+				</button>
+			</div>
 
-			<a class="popup btn btn-primary" href="/createfile/save/0">Add new one</a>
+				<div id="newQuestions">
+					@* The region where will be added controls dinamically *@
+				</div>
 
-			<button type="button"
-					class="btn btn-primary"
-					href="#addNewQuestionPopup"
-					data-toggle="modal">
-				Add question
-			</button>
-
-			@* Modal form for adding new question *@
-			@*@using (Html.BeginForm("AddNewQuestion", "CreateFile", FormMethod.Post, new { id = "modalForm" }))
-			{*@
+				@* Modal form for adding new question *@
 				<div class="modal" id="addNewQuestionPopup">
 					<div class="modal-dialog" role="document">
 						<div class="modal-content">
@@ -100,16 +96,14 @@
 						</div>
 					</div>
 				</div>
-			@* } *@
+			</div>
 
-		</div>
-
-		<div class="form-group">
-			<div class="col-md-offset-2 col-md-10">
-				<input type="submit" value="Create" class="btn btn-default" />
+			<div class="form-group">
+				<div class="col-md-offset-2 col-md-10">
+					<input type="submit" value="Create" class="btn btn-default" />
+				</div>
 			</div>
 		</div>
-	</div>
 }
 
 
@@ -160,9 +154,10 @@
 				type: "POST",
 				url: "/CreateFile/AddNewQuestion",
 				data: data,
-				success: function (data) {
-					$('#result').html(data);
-				}				
+				success: function (partialView) {
+					$("#myModal").modal("hide");
+					$('#newQuestions').append(partialView);
+				}
 			})
 		})
 
