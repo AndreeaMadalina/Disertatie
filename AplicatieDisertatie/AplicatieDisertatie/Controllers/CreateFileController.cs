@@ -1,5 +1,6 @@
 ﻿using AplicatieDisertatie.DAL;
 using AplicatieDisertatie.Models;
+using AplicatieDisertatie.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace AplicatieDisertatie.Controllers
     public class CreateFileController : Controller
     {
 		private UnitOfWork _unitOfWork = new UnitOfWork();
+
+		CommonViewModel ViewModel { get; set; }
 
 		// GET: CreateFile
 		public ActionResult Index()
@@ -33,12 +36,12 @@ namespace AplicatieDisertatie.Controllers
 		public ActionResult Create()
 		{
 			// Initialization.  
-			CommonViewModel model = new CommonViewModel();
-			model.FileVM = new FileViewModel();
-			model.QuestionVM = new QuestionViewModel();
-			model.QuestionTypeVM = new QuestionTypeViewModel();
-			model.QuestionOptionVM = new QuestionOptionViewModel();
-			model.QuestionList = new List<QuestionViewModel>();
+			ViewModel = new CommonViewModel();
+			ViewModel.FileVM = new FileViewModel();
+			ViewModel.QuestionVM = new QuestionViewModel();
+			ViewModel.QuestionTypeVM = new QuestionTypeViewModel();
+			ViewModel.QuestionOptionVM = new QuestionOptionViewModel();
+			ViewModel.QuestionList = new List<QuestionViewModel>();
 
 			var questionTypes = _unitOfWork.QuestionTypeRepository.Get().ToList();
 
@@ -52,19 +55,29 @@ namespace AplicatieDisertatie.Controllers
 
 		// POST: Reviews/Create
 		[HttpPost]
-		public ActionResult Create(int fileID, File newFile)
+		public ActionResult Create(CommonViewModel vm)
 		{
 			try
 			{
-				var questionTypes = _unitOfWork.QuestionTypeRepository.Get().ToList();
-				ViewBag.QuestionTypes = questionTypes;
-
 				var files = _unitOfWork.FileRepository.Get().ToList();
-				var file = _unitOfWork.FileRepository.GetByID(fileID);
-				files.Add(newFile);
+				var users = _unitOfWork.UserRepository.Get(u => u.Email == AppSettings.User.Email).ToList();
+
+				File file = new File();
+				file.AuthorId = users[0].Id;
+				file.FileName = vm.FileVM.FileName;
+				foreach(var q in ViewModel.FileVM.Questions)
+				{
+					Question question = new Question
+					{
+						QuestionText = q.QuestionText,
+						TypeId = q.TypeId
+					};
+					file.Questions.Add(question);
+				}
+				
 				_unitOfWork.Save();
 
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", "File");
 			}
 			catch
 			{
@@ -75,12 +88,16 @@ namespace AplicatieDisertatie.Controllers
 		[HttpPost]
 		public ActionResult AddNewQuestion(CommonViewModel cm)
 		{
-			//CommonViewModel cvm = new CommonViewModel { QuestionList = new List<QuestionViewModel>() };
-			//cvm.QuestionList.Add(new QuestionViewModel { QuestionId = 1, QuestionText = "Test" });
-
-
+			//cm.QuestionVM.QuestionType.TypeId = cm.QuestionTypeVM.TypeId;
+			//ViewModel.FileVM.Questions.Add(cm.QuestionVM);
 
 			return View("~/Views/CreateFile/Partial/AddNewQuestion.cshtml", cm);
+		}
+
+		public ActionResult NewInterestRow(int id)
+		{
+			var interest = new CommonViewModel { CommonVMId = id };
+			return View("~/Views/CreateFile/Partial/AddNewQuestionPopUp.cshtml", interest);
 		}
 
 	}

@@ -79,5 +79,21 @@ namespace AplicatieDisertatie.Controllers
 
 			return View(viewFile);
 		}
+
+
+		public JsonResult Delete(int? id)
+		{
+			bool result = false;
+
+			File file = _unitOfWork.FileRepository.GetByID(id);
+			if (file != null)
+			{
+				_unitOfWork.FileRepository.Delete(id);
+				_unitOfWork.Save();
+				result = true;
+			}
+
+			return Json(result, JsonRequestBehavior.AllowGet);
+		}
 	}
 }

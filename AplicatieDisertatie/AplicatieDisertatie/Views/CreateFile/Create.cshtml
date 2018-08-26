@@ -19,11 +19,11 @@
 <h2>Create</h2>
 
 
-@using (Html.BeginForm())
+@using (Html.BeginForm("Create", "CreateFile", FormMethod.Post))
 {
-	@Html.AntiForgeryToken()
+				@Html.AntiForgeryToken()
 
-	<div class="form-horizontal">
+				<div class="form-horizontal">
 		<h4>File</h4>
 		<hr />
 		@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -41,7 +41,8 @@
 				<button type="button"
 						class="btn btn-primary"
 						href="#addNewQuestionPopup"
-						data-toggle="modal">
+						data-toggle="modal"
+						id="btnPopup">
 					Add question
 				</button>
 			</div>
@@ -50,60 +51,60 @@
 				@* The region where the controls will be added dynamically *@
 			</div>
 
-				@* Modal form for adding new question *@
-				<div class="modal" id="addNewQuestionPopup">
-					<div class="modal-dialog" role="document">
-						<div class="modal-content">
-							<div class="modal-header">
-								<h5 class="modal-title">Add new question</h5>
-								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-									<span aria-hidden="true">&times;</span>
-								</button>
-							</div>
-							<div class="modal-body">
-								<form id="form">
-									<fieldset id="submitForm">
-										<div class="form-group" style="white-space:nowrap">
-											@Html.LabelFor(m => m.QuestionTypeVM.Type, new { @class = "col-md-2 control-label" })
-											<div class="col-md-6">
-												@Html.DropDownListFor(model => model.QuestionTypeVM.TypeId, (SelectList)ViewBag.QuestionTypes, "    ", new { id = "questionTypeId", @class = "form-control displayedQuestionTypes" })
-												@Html.HiddenFor(m => m.QuestionTypeVM.Type, new { @class = "displayedQuestionTypesText form-control" })
-											</div>
+			@* Modal form for adding new question *@
+			<div class="modal" id="addNewQuestionPopup">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Add new question</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<form id="form">
+								<fieldset id="submitForm">
+									<div class="form-group" style="white-space:nowrap">
+										@Html.LabelFor(m => m.QuestionTypeVM.Type, new { @class = "col-md-2 control-label" })
+										<div class="col-md-6">
+											@Html.DropDownListFor(model => model.QuestionTypeVM.TypeId, (SelectList)ViewBag.QuestionTypes, "    ", new { id = "questionTypeId", @class = "form-control displayedQuestionTypes" })
+											@Html.HiddenFor(m => m.QuestionTypeVM.Type, new { @class = "displayedQuestionTypesText form-control" })
 										</div>
+									</div>
 
-										<div class="form-group" id="questionText">
-											@Html.LabelFor(model => model.QuestionVM.QuestionText, htmlAttributes: new { @class = "control-label col-md-2" })
-											<div class="col-md-10">
-												@Html.EditorFor(model => model.QuestionVM.QuestionText, new { htmlAttributes = new { @class = "form-control" } })
-												@Html.ValidationMessageFor(model => model.QuestionVM.QuestionText, "", new { @class = "text-danger" })
-											</div>
+									<div class="form-group" id="questionText">
+										@Html.LabelFor(model => model.QuestionVM.QuestionText, htmlAttributes: new { @class = "control-label col-md-2" })
+										<div class="col-md-10">
+											@Html.EditorFor(model => model.QuestionVM.QuestionText, new { htmlAttributes = new { @class = "form-control" } })
+											@Html.ValidationMessageFor(model => model.QuestionVM.QuestionText, "", new { @class = "text-danger" })
 										</div>
+									</div>
 
-										<div class="form-group" id="answersNo">
-											@Html.LabelFor(model => model.QuestionVM.AnswersNo, htmlAttributes: new { @class = "control-label col-md-2" })
-											<div class="col-md-10">
-												@Html.EditorFor(model => model.QuestionVM.AnswersNo, new { htmlAttributes = new { @class = "form-control" } })
-												@Html.ValidationMessageFor(model => model.QuestionVM.AnswersNo, "", new { @class = "text-danger" })
-											</div>
+									<div class="form-group" id="answersNo">
+										@Html.LabelFor(model => model.QuestionVM.AnswersNo, htmlAttributes: new { @class = "control-label col-md-2" })
+										<div class="col-md-10">
+											@Html.EditorFor(model => model.QuestionVM.AnswersNo, new { htmlAttributes = new { @class = "form-control" } })
+											@Html.ValidationMessageFor(model => model.QuestionVM.AnswersNo, "", new { @class = "text-danger" })
 										</div>
-									</fieldset>
-								</form>
-							</div>
-							<div class="modal-footer">
-								<button id="btnAddNewQuestion" type="button" class="btn btn-primary">Save changes</button>
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							</div>
+									</div>
+								</fieldset>
+							</form>
+						</div>
+						<div class="modal-footer">
+							<button id="btnAddNewQuestion" type="button" class="btn btn-primary">Save changes</button>
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 						</div>
 					</div>
 				</div>
 			</div>
+		</div>
 
-			<div class="form-group">
-				<div class="col-md-offset-2 col-md-10">
-					<input type="submit" value="Create" class="btn btn-default" />
-				</div>
+		<div class="form-group">
+			<div class="col-md-offset-2 col-md-10">
+				<input type="submit" value="Create" id="addFile" class="btn btn-default" />
 			</div>
 		</div>
+	</div>
 }
 
 
@@ -114,7 +115,7 @@
 @section Scripts {
 	@Scripts.Render("~/bundles/jqueryval")
 
-	<script>
+<script>
 		$(function () {
 			$(".displayedQuestionTypes").on("change", function () {
 				$(".displayedQuestionTypesText").val($(this).find("option:selected").text());
@@ -126,7 +127,12 @@
 		function hideOnLoad() {
 			$('#questionText').hide();
 			$('#answersNo').hide();
-		}
+		};
+
+		// clear the inputs
+		$.clearFormFields = function (area) {
+			$(area).find('input[type="text"], input[type="number"],textarea,select').val('');
+		};
 
 		// Render the popup controls
 		$(document).ready(function () {
@@ -145,27 +151,31 @@
 					hideOnLoad();
 				}
 			});
-		})
+		});
 
 		// Send the values to the server side
-		$("#btnAddNewQuestion").click(function () {
-			var data = $("#submitForm").serialize();
+	$("#btnAddNewQuestion").click(function () {
+		//var itemIndex = $("#newQuestions input.iHidden").length;
+		var data = $("#submitForm").serialize();// + '&CommonVMId=' + itemIndex;
 			$.ajax({
 				type: "POST",
 				url: "/CreateFile/AddNewQuestion",
 				data: data,
+				//data: JSON.stringify(data),
 				success: function (partialView) {
-					$("#myModal").modal("hide");
+					$("#addNewQuestionPopup").modal("hide");
 					$('#newQuestions').append(partialView);
+					$.clearFormFields('#addNewQuestionPopup');
+					hideOnLoad();
 				}
 			})
-		})
-
+		});
+	
 		// TODO: Add popup validation
 		$('#addNewQuestionPopup').change(
 			function () {
 				$.validator.unobtrusive.parse("#your-form-id");
-			});
+		});
 
-	</script>
+</script>
 }

@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using AplicatieDisertatie.Models;
+using AplicatieDisertatie.Utils;
 
 namespace AplicatieDisertatie.Controllers
 {
@@ -79,7 +80,10 @@ namespace AplicatieDisertatie.Controllers
 			switch (result)
 			{
 				case SignInStatus.Success:
-					return RedirectToLocal(returnUrl);
+					{
+						AppSettings.User.Email = model.Email;
+						return RedirectToLocal(returnUrl);
+					}
 				case SignInStatus.LockedOut:
 					return View("Lockout");
 				case SignInStatus.RequiresVerification:
