@@ -12,6 +12,7 @@ namespace AplicatieDisertatie.Models
 		public QuestionViewModel()
 		{
 			this.QuestionOptions = new HashSet<QuestionOptionViewModel>();
+			this.UserAnswers = new HashSet<UserAnswer>();
 		}
 
 		public int QuestionId { get; set; }
@@ -28,5 +29,6 @@ namespace AplicatieDisertatie.Models
 		public virtual QuestionType QuestionType { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<QuestionOptionViewModel> QuestionOptions { get; set; }
+		public virtual ICollection<UserAnswer> UserAnswers { get; set; }
 	}
 }
