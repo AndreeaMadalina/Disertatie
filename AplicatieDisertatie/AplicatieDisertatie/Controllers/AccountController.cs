@@ -82,6 +82,7 @@ namespace AplicatieDisertatie.Controllers
 				case SignInStatus.Success:
 					{
 						AppSettings.User.Email = model.Email;
+						AppSettings.SetUserId();
 						return RedirectToLocal(returnUrl);
 					}
 				case SignInStatus.LockedOut:

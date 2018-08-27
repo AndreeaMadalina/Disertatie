@@ -27,6 +27,8 @@
         <AssociationConnector Association="Model.FK_Question_QuestionType" />
         <AssociationConnector Association="Model.FK_QuestionOption_Question" />
         <AssociationConnector Association="Model.FK_UserAnswer_QuestionOption" />
+        <AssociationConnector Association="Model.FK_UserAnswer_File" />
+        <AssociationConnector Association="Model.FK_UserAnswer_Question" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

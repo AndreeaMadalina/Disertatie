@@ -17,8 +17,12 @@ namespace AplicatieDisertatie.Models
         public string UserId { get; set; }
         public int OptionId { get; set; }
         public string Text { get; set; }
+        public int FileId { get; set; }
+        public int QuestionId { get; set; }
     
         public virtual AspNetUser AspNetUser { get; set; }
         public virtual QuestionOption QuestionOption { get; set; }
+        public virtual File File { get; set; }
+        public virtual Question Question { get; set; }
     }
 }
