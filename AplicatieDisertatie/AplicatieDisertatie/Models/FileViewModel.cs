@@ -12,7 +12,7 @@ namespace AplicatieDisertatie.Models
 		{
 			this.ResponseFiles = new HashSet<ResponseFileViewModel>();
 			this.Questions = new HashSet<QuestionViewModel>();
-			this.UserAnswers = new HashSet<UserAnswer>();
+			this.UserAnswers = new HashSet<UserAnswerViewModel>();
 		}
 
 		public int FileId { get; set; }
@@ -26,6 +26,6 @@ namespace AplicatieDisertatie.Models
 		public virtual ICollection<ResponseFileViewModel> ResponseFiles { get; set; }
 		[System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
 		public virtual ICollection<QuestionViewModel> Questions { get; set; }
-		public virtual ICollection<UserAnswer> UserAnswers { get; set; }
+		public virtual ICollection<UserAnswerViewModel> UserAnswers { get; set; }
 	}
 }

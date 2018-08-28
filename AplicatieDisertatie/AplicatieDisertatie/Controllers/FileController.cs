@@ -39,11 +39,27 @@ namespace AplicatieDisertatie.Controllers
 		{
 			var file = _unitOfWork.FileRepository.GetByID(id);
 
-			var questionList = new List<QuestionViewModel>();
+			
+			List<UserAnswerViewModel> userList = new List<UserAnswerViewModel>();
+			
+			var userDBO = file.UserAnswers.Where(u => u.UserId == AppSettings.User.Id && u.FileId == file.FileId);
+			foreach (var u in userDBO)
+			{
+				var user = new UserAnswerViewModel
+				{
+					UserId = u.UserId,
+					FileId = u.FileId,
+					OptionId = u.OptionId,
+					QuestionId = u.QuestionId
+				};
 
+				userList.Add(user);
+			}
+
+			var questionList = new List<QuestionViewModel>();
 			foreach (var item in file.Questions)
 			{
-				var optionList = new List<QuestionOptionViewModel>();
+				var optionList = new List<QuestionOptionViewModel>();				
 
 				foreach (var o in item.QuestionOptions)
 				{
@@ -65,8 +81,10 @@ namespace AplicatieDisertatie.Controllers
 					TypeId = item.TypeId,
 					QuestionOptions = optionList
 				});
-			}
 
+				
+			}
+			
 			var viewFile = new FileViewModel
 			{
 				FileId = file.FileId,
@@ -75,11 +93,16 @@ namespace AplicatieDisertatie.Controllers
 				TemplateFile = file.TemplateFile,
 				UpdatedOn = file.UpdatedOn,
 				AspNetUser = file.AspNetUser,
-				Questions = questionList
+				Questions = questionList,
+				UserAnswers = userList
 			};
 
 			List<UserAnswer> userAns = _unitOfWork.UserAnswerRepository.Get(u => u.FileId == id).ToList();
 			List<QuestionOptionViewModel> answers = new List<QuestionOptionViewModel>();
+
+			//The key is represented by the user answer and the value by the real answer
+			Dictionary<QuestionViewModel, QuestionViewModel> ansDictionary = new Dictionary<QuestionViewModel, QuestionViewModel>();
+
 			foreach (var u_ans in userAns)
 			{
 				QuestionOptionViewModel ans = new QuestionOptionViewModel
@@ -89,7 +112,7 @@ namespace AplicatieDisertatie.Controllers
 				};
 				answers.Add(ans);
 			}
-
+			
 			ViewBag.UserNoOfResponses = GetQuizResult(answers);
 			return View(viewFile);
 		}
@@ -206,7 +229,7 @@ namespace AplicatieDisertatie.Controllers
 			}
 			return result;
 		}
-
+		
 		#endregion
 	}
 }
