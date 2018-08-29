@@ -12,6 +12,7 @@ namespace AplicatieDisertatie.Controllers
     public class CreateFileController : Controller
     {
 		private UnitOfWork _unitOfWork = new UnitOfWork();
+		//private List<QuestionViewModel> questionList = new List<QuestionViewModel>();
 
 		CommonViewModel ViewModel { get; set; }
 
@@ -59,39 +60,101 @@ namespace AplicatieDisertatie.Controllers
 		{
 			try
 			{
-				var files = _unitOfWork.FileRepository.Get().ToList();
 				var users = _unitOfWork.UserRepository.Get(u => u.Email == AppSettings.User.Email).ToList();
 
 				File file = new File();
 				file.AuthorId = users[0].Id;
 				file.FileName = vm.FileVM.FileName;
-				foreach(var q in ViewModel.FileVM.Questions)
+				file.UpdatedOn = DateTime.Now.Date;
+
+				foreach (var q in HelperClass.QuestionList)
 				{
 					Question question = new Question
 					{
 						QuestionText = q.QuestionText,
 						TypeId = q.TypeId
 					};
+
+					foreach (var ans in q.QuestionOptions)
+					{
+						QuestionOption option = new QuestionOption
+						{
+							Answer = ans.Answer,
+							IsValid = ans.IsValid ?? false
+						};
+
+						question.QuestionOptions.Add(option);
+					}
+
 					file.Questions.Add(question);
 				}
-				
+
+				_unitOfWork.FileRepository.Add(file);
 				_unitOfWork.Save();
 
 				return RedirectToAction("Index", "File");
 			}
-			catch
+			catch(Exception ex)
 			{
 				return View();
 			}
 		}
 
 		[HttpPost]
-		public ActionResult AddNewQuestion(CommonViewModel cm)
+		public ActionResult AddNewQuestion(int itemIndex, CommonViewModel questionDetails)
 		{
-			//cm.QuestionVM.QuestionType.TypeId = cm.QuestionTypeVM.TypeId;
-			//ViewModel.FileVM.Questions.Add(cm.QuestionVM);
+			questionDetails.QuestionVM.QuestionId = itemIndex + 1;
+			questionDetails.QuestionVM.TypeId = questionDetails.QuestionTypeVM.TypeId;
 
-			return View("~/Views/CreateFile/Partial/AddNewQuestion.cshtml", cm);
+			bool questionExists = HelperClass.QuestionList.Exists(q => q.QuestionId == questionDetails.QuestionVM.QuestionId);
+			if (!questionExists)
+			{
+				HelperClass.QuestionList.Add(questionDetails.QuestionVM);
+			}
+
+			return View("~/Views/CreateFile/Partial/AddNewQuestion.cshtml", questionDetails);
+		}
+
+		[HttpPost]
+		public void UpdateQuestionList(bool isQuestionUpdated, CommonViewModel commonvm)
+		{
+			if (isQuestionUpdated)
+			{
+				QuestionViewModel questionTextHasChanged = HelperClass.QuestionList.FirstOrDefault(q => q.QuestionId == commonvm.QuestionVM.QuestionId);
+				if (questionTextHasChanged != null)
+				{
+					questionTextHasChanged.QuestionText = commonvm.QuestionVM.QuestionText;
+				}
+			}
+			else
+			{
+				QuestionViewModel question = HelperClass.QuestionList.FirstOrDefault(q => q.QuestionId == commonvm.QuestionVM.QuestionId);
+				QuestionOptionViewModel ansExists = question.QuestionOptions.FirstOrDefault(a => a.OptionId == commonvm.QuestionOptionVM.OptionId);
+
+				if (ansExists != null && commonvm.QuestionOptionVM.Answer != null && 
+					commonvm.QuestionOptionVM.Answer != "true" && commonvm.QuestionOptionVM.Answer != "false" && commonvm.QuestionOptionVM.Answer != string.Empty)
+				{
+					ansExists.Answer = commonvm.QuestionOptionVM.Answer;
+				}
+				else
+				{
+					QuestionOptionViewModel newAns = new QuestionOptionViewModel();
+					newAns.OptionId = commonvm.QuestionOptionVM.OptionId;
+					newAns.QuestionId = commonvm.QuestionOptionVM.QuestionId;
+					newAns.Answer = commonvm.QuestionOptionVM.Answer ?? string.Empty;
+
+					if (commonvm.QuestionOptionVM.IsValid.HasValue && commonvm.QuestionOptionVM.IsValid.Value && question.TypeId == (int)QuestionTypes.SingleChoice)
+					{
+						foreach (var item in question.QuestionOptions)
+						{
+							item.IsValid = false;
+						}
+					}
+					newAns.IsValid = commonvm.QuestionOptionVM.IsValid;
+
+					question.QuestionOptions.Add(newAns);
+				}
+			}
 		}
 
 		public ActionResult NewInterestRow(int id)
@@ -99,6 +162,5 @@ namespace AplicatieDisertatie.Controllers
 			var interest = new CommonViewModel { CommonVMId = id };
 			return View("~/Views/CreateFile/Partial/AddNewQuestionPopUp.cshtml", interest);
 		}
-
 	}
 }
