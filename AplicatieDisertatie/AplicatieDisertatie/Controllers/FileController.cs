@@ -114,6 +114,7 @@ namespace AplicatieDisertatie.Controllers
 			}
 			
 			ViewBag.UserNoOfResponses = GetQuizResult(answers);
+			ViewBag.UserHasDoTheQuiz = UserHasDoTheQuiz(file.FileId);
 			return View(viewFile);
 		}
 
@@ -123,20 +124,11 @@ namespace AplicatieDisertatie.Controllers
 			//List<QuestionOptionViewModel> finalResultQuiz = new List<QuestionOptionViewModel>();
 			List<UserAnswer> userAnswers = new List<UserAnswer>();
 			var options = _unitOfWork.QuestionOptionRepository.Get().ToList();
-			int correctAns = 0;
+			//int correctAns = 0;
 			int result;
 			
 			foreach (QuestionOptionViewModel answser in resultQuiz)
 			{
-				//QuestionOptionViewModel ans = options.Where(a => a.OptionId == answser.OptionId).Select(a => new QuestionOptionViewModel
-				//{
-				//	QuestionId = a.QuestionId,
-				//	OptionId = a.OptionId,
-				//	Answer = a.Answer,
-				//	IsValid= a.IsValid
-
-				//}).FirstOrDefault();
-
 				UserAnswer userAnswer = options.Where(a => a.OptionId == answser.OptionId).Select(a => new UserAnswer
 				{
 					UserId = AppSettings.User.Id,					
@@ -151,8 +143,8 @@ namespace AplicatieDisertatie.Controllers
 				//finalResultQuiz.Add(ans);
 			}
 
-			correctAns = GetQuizResult(resultQuiz);
-			result = correctAns;
+			//correctAns = GetQuizResult(resultQuiz);
+			result = fileId;
 			_unitOfWork.Save();
 
 			return Json(result, JsonRequestBehavior.AllowGet);
@@ -229,7 +221,26 @@ namespace AplicatieDisertatie.Controllers
 			}
 			return result;
 		}
-		
+
+		private bool UserHasDoTheQuiz(int quizId)
+		{
+			var userAns = _unitOfWork.UserAnswerRepository.Get(u => u.UserId == AppSettings.User.Id && u.FileId == quizId).ToList();
+			//var file = _unitOfWork.FileRepository.GetByID(quizId);
+
+			//foreach (var item in file?.Questions)
+			//{
+			//	if(QuestionType)
+			//}
+
+
+			if(userAns != null && userAns.Count > 0)
+			{
+				return true;
+			}
+
+			return false;
+		}
+
 		#endregion
 	}
 }

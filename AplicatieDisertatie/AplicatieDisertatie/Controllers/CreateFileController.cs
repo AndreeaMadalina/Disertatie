@@ -92,6 +92,8 @@ namespace AplicatieDisertatie.Controllers
 				_unitOfWork.FileRepository.Add(file);
 				_unitOfWork.Save();
 
+				HelperClass.QuestionList.Clear();
+
 				return RedirectToAction("Index", "File");
 			}
 			catch(Exception ex)
@@ -116,7 +118,7 @@ namespace AplicatieDisertatie.Controllers
 		}
 
 		[HttpPost]
-		public void UpdateQuestionList(bool isQuestionUpdated, CommonViewModel commonvm)
+		public void UpdateQuestionList(bool isQuestionUpdated, CommonViewModel commonvm, bool isChecked)
 		{
 			if (isQuestionUpdated)
 			{
@@ -131,10 +133,23 @@ namespace AplicatieDisertatie.Controllers
 				QuestionViewModel question = HelperClass.QuestionList.FirstOrDefault(q => q.QuestionId == commonvm.QuestionVM.QuestionId);
 				QuestionOptionViewModel ansExists = question.QuestionOptions.FirstOrDefault(a => a.OptionId == commonvm.QuestionOptionVM.OptionId);
 
-				if (ansExists != null && commonvm.QuestionOptionVM.Answer != null && 
-					commonvm.QuestionOptionVM.Answer != "true" && commonvm.QuestionOptionVM.Answer != "false" && commonvm.QuestionOptionVM.Answer != string.Empty)
+				if (ansExists != null)
 				{
-					ansExists.Answer = commonvm.QuestionOptionVM.Answer;
+					if (!isChecked)
+					{
+						ansExists.Answer = commonvm.QuestionOptionVM.Answer;
+					}
+					else
+					{					
+						if (commonvm.QuestionOptionVM.IsValid.HasValue && commonvm.QuestionOptionVM.IsValid.Value && question.TypeId == (int)QuestionTypes.SingleChoice)
+						{
+							foreach (var item in question.QuestionOptions)
+							{
+								item.IsValid = false;
+							}
+						}
+						ansExists.IsValid = commonvm.QuestionOptionVM.IsValid;
+					}
 				}
 				else
 				{

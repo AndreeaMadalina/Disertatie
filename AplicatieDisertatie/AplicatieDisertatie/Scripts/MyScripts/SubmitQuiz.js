@@ -52,7 +52,7 @@ $('.rdomcqans').on('change', function () {
 			dataType: "json",
 			//contentType: "application/json; charset=utf-8",
 			success: function (result) {
-				window.location.href = '/File/OpenFile';
+				window.location.href = '/File/OpenFile?id=' + result;
 			}
 		});
 	}

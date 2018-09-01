@@ -2,6 +2,7 @@
 	var id = Elem.id;
 	var text = $("#" + id).val();
 	var isQuestionUpdated;
+	var isChecked = false;
 
 	if (text === 'on') {
 		text = true;
@@ -16,6 +17,8 @@
 		var qId = splitString[1].replace(/[^0-9]/g, '');
 
 		if (typeof (text) === 'boolean' || text === 'false' || text === 'true') {
+
+			isChecked = true;
 			qVM = {
 				QuestionId: qId,
 				QuestionText: text
@@ -33,6 +36,8 @@
 			};
 		}
 		else {
+			isChecked = false;
+
 			qVM = {
 				QuestionId: qId,
 				QuestionText: text
@@ -70,7 +75,7 @@
 	$.ajax({
 		type: "POST",
 		url: "/CreateFile/UpdateQuestionList",
-		data: { isQuestionUpdated, commonvm },
+		data: { isQuestionUpdated, commonvm, isChecked },
 		dataType: "json",
 		success: function () {
 		}

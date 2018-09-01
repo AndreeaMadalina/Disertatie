@@ -7,6 +7,14 @@
 	List<string> idList = new List<string>();
 }
 
+@*<style type="text/css">
+		body {
+			background: #7DA3A1 !important;
+		}
+		/* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+
+	</style>*@
+
 <h2>OpenFile</h2>
 
 
@@ -14,11 +22,11 @@
 {
 	@Html.AntiForgeryToken()
 
-	if (ViewBag.UserNoOfResponses > 0)
+	if (ViewBag.UserHasDoTheQuiz)
 	{
 		//@Html.Partial("ResumedQuiz", Model)
 		<div class="form-horizontal">
-			<h4>@Html.DisplayName(Model.FileName)</h4>
+			<h4 style="margin-bottom: 40px">@Html.DisplayName(Model.FileName)</h4>
 			<h4>@String.Format("{0}/{1} correct answers!", ViewBag.UserNoOfResponses, Model.Questions.Count)</h4>
 			<hr />
 			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -27,11 +35,11 @@
 			{
 				bool isCorrectSingleAnswer = false;
 				bool isCorrectMultipleAnswer = true;
-				<div class="BlockQ" style="border: 1px solid #bdbdbd; width: 75%; border-radius: 4px; margin-top: 40px; background-color: azure; padding: 8px;">
+				<div class="BlockQ" style="border: 1px solid #015249; width: 75%; border-radius: 4px; margin-bottom: 40px; padding: 8px;">
 					<div class="form-group">
 						@Html.Label(question.QuestionText, htmlAttributes: new { @class = "control-label col-md" })
 
-						<div class="col-md form-group" id="@question.QuestionId">
+						<div class="col-1 form-group" id="@question.QuestionId">
 							@if (question.TypeId == 1)
 							{
 								foreach (var option in question.QuestionOptions)
@@ -39,7 +47,7 @@
 									var ans = Model.UserAnswers.FirstOrDefault(u => u.OptionId == option.OptionId);
 									if (ans != null)
 									{
-										<div class="col-md custom-control custom-radio border-dark" style="margin-left: 3%; border-radius: 100%">
+										<div class="col-md custom-control custom-radio" style="margin-left: 3%; border-radius: 100%">
 											@Html.RadioButton("quId_" + question.QuestionId + "_ansId_" + option.OptionId, option.Answer, true, new { @id = ans.OptionId, @class = "custom-control-input rdomcqans", disabled = "disabled" })
 											@Html.Label(option.Answer, new { @class = "custom-control-label", @for = ans.OptionId })
 										</div>
@@ -48,8 +56,8 @@
 									}
 									else
 									{
-										<div class="col-md custom-control custom-radio border-dark" style="margin-left: 3%; border-radius: 100%">
-											@Html.RadioButton("quId_" + question.QuestionId + "_ansId_" + option.OptionId, option.Answer, new { @id = option.OptionId, @class = "custom-control-input rdomcqans", disabled = "disabled" })
+										<div class="col-1 custom-control custom-radio" style="margin-left: 3%; border-radius: 100%">
+											@Html.RadioButton("quId_" + question.QuestionId + "_ansId_" + option.OptionId, option.Answer, new { @id = option.OptionId, @class = "custom-control-input rdomcqans red", @style = "background-color:#ffd800", disabled = "disabled" })
 											@Html.Label(option.Answer, new { @class = "custom-control-label", @for = option.OptionId })
 										</div>
 									}
@@ -75,6 +83,8 @@
 											@Html.Label(option.Answer, new { @class = "custom-control-label", @for = ans.OptionId })
 										</div>
 										idList.Add("quId_" + question.QuestionId + "_ansId_" + option.OptionId);
+
+										validR.Add(option.OptionId);
 									}
 									else
 									{
@@ -83,15 +93,9 @@
 											@Html.Label(option.Answer, new { @class = "custom-control-label", @for = option.OptionId })
 										</div>
 									}
-
-
-									if (option.IsValid.Value)
-									{
-										validR.Add(option.OptionId);
-									}
 								}
 
-								foreach (var a in qAns)
+								foreach (var a in question.QuestionOptions)
 								{
 									if (!validR.Exists(x => x == a.OptionId))
 									{
@@ -100,12 +104,12 @@
 								}
 							}
 
-							@if (question.TypeId == 3)
-							{
-								<div class="form-text">
-									@Html.TextArea("quId_" + question.QuestionId + "_ansText_", null, new { @class = "form-control", disabled = "disabled" })
-								</div>
-							}
+							@*@if (question.TypeId == 3)
+								{
+									<div class="form-text">
+										@Html.TextArea("quId_" + question.QuestionId + "_ansText_", null, new { @class = "form-control", disabled = "disabled" })
+									</div>
+								}*@
 						</div>
 
 						@if (( isCorrectSingleAnswer == true && question.TypeId == 1 ) || ( isCorrectMultipleAnswer == true && question.TypeId == 2 ))
@@ -124,7 +128,7 @@
 								var correctAnswers = question.QuestionOptions.Where(a => a.IsValid.Value);
 								string correctAns = string.Empty;
 								List<string> ansList = new List<string>();
-								foreach(var c in correctAnswers)
+								foreach (var c in correctAnswers)
 								{
 									ansList.Add(c.Answer);
 								}
@@ -146,44 +150,47 @@
 	{
 
 		<div class="form-horizontal">
-			<h4>@Html.DisplayName(Model.FileName)</h4>
+			<h4 style="margin-bottom: 40px">@Html.DisplayName(Model.FileName)</h4>
 			<hr />
 			@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
 			@foreach (AplicatieDisertatie.Models.QuestionViewModel question in Model.Questions)
 			{
-				<div class="form-group">
-					@Html.Label(question.QuestionText, htmlAttributes: new { @class = "control-label col-md" })
+				<div class="BlockQ" style="border: 1px solid #015249; width: 75%; border-radius: 4px; margin-bottom: 40px; padding: 8px;">
 
-					<div class="col-md form-group" id="@question.QuestionId">
-						@if (question.TypeId == 1)
-						{
-							foreach (var option in question.QuestionOptions)
+					<div class="form-group">
+						@Html.Label(question.QuestionText, htmlAttributes: new { @class = "control-label col-md" })
+
+						<div class="col-md form-group" id="@question.QuestionId">
+							@if (question.TypeId == 1)
 							{
-								<div class="col-md custom-control custom-radio">
-									@Html.RadioButton("quId_" + question.QuestionId + "_ansId_" + option.OptionId, option.Answer, new { @id = option.OptionId, @class = "custom-control-input rdomcqans" })
-									@Html.Label(option.Answer, new { @class = "custom-control-label", @for = option.OptionId })
+								foreach (var option in question.QuestionOptions)
+								{
+									<div class="col-md custom-control custom-radio">
+										@Html.RadioButton("quId_" + question.QuestionId + "_ansId_" + option.OptionId, option.Answer, new { @id = option.OptionId, @class = "custom-control-input rdomcqans" })
+										@Html.Label(option.Answer, new { @class = "custom-control-label", @for = option.OptionId })
+									</div>
+								}
+							}
+
+							@if (question.TypeId == 2)
+							{
+								foreach (var option in question.QuestionOptions)
+								{
+									<div class="col-md custom-control custom-checkbox">
+										@Html.CheckBox("quId_" + question.QuestionId + "_ansId_" + option.OptionId, false, htmlAttributes: new { @id = option.OptionId, @class = "custom-control-input rdomcqans" })
+										@Html.Label(option.Answer, new { @class = "custom-control-label", @for = option.OptionId })
+									</div>
+								}
+							}
+
+							@if (question.TypeId == 3)
+							{
+								<div class="form-text">
+									@Html.TextArea("quId_" + question.QuestionId + "_ansText_", null, new { @class = "form-control" })
 								</div>
 							}
-						}
-
-						@if (question.TypeId == 2)
-						{
-							foreach (var option in question.QuestionOptions)
-							{
-								<div class="col-md custom-control custom-checkbox">
-									@Html.CheckBox("quId_" + question.QuestionId + "_ansId_" + option.OptionId, false, htmlAttributes: new { @id = option.OptionId, @class = "custom-control-input rdomcqans" })
-									@Html.Label(option.Answer, new { @class = "custom-control-label", @for = option.OptionId })
-								</div>
-							}
-						}
-
-						@if (question.TypeId == 3)
-						{
-							<div class="form-text">
-								@Html.TextArea("quId_" + question.QuestionId + "_ansText_", null, new { @class = "form-control" })
-							</div>
-						}
+						</div>
 					</div>
 				</div>
 			}
@@ -191,12 +198,12 @@
 
 	}
 
-	if (ViewBag.UserNoOfResponses == 0)
+	if (!ViewBag.UserHasDoTheQuiz)
 	{
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				@*<input type="submit" id="SubmitQuiz" value="Submit" class="btn btn-default" onclick="SubmitQuiz(@(Model.FileId))" />*@
-				<a href="#" class="btn btn-danger" onclick="SubmitQuiz('@Model.FileId')">Submit</a>
+				<a href="#" class="btn btn-success" onclick="SubmitQuiz('@Model.FileId')">Submit</a>
 
 			</div>
 		</div>
