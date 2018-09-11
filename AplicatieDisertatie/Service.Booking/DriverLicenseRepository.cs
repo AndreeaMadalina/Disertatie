@@ -1,5 +1,5 @@
-﻿using AplicatieDisertatie.Models.DTO;
-using Common;
+﻿using Common;
+using Common.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -7,14 +7,9 @@ using System.Data.SqlClient;
 
 namespace Service.Booking
 {
-    public class BookingRepository
+    public class DriverLicenseRepository
     {
-        public BookingRepository()
-        {
-
-        }
-
-        public bool SaveBooking(BookingModel request)
+        public bool SaveBooking(DriverLicenseModel request)
         {
             if (request != null)
             {
@@ -22,7 +17,7 @@ namespace Service.Booking
                 {
                     connection.Open();
                     SqlCommand command = connection.CreateCommand();
-                    command.CommandText = @"INSERT INTO [Bookings] ([InstitutionID], [FirstName], [LastName], [Email], [CNP], [BookingDate], [BookingHour]) 
+                    command.CommandText = @"INSERT INTO [DriverLicenseBooking] ([InstitutionID], [FirstName], [LastName], [Email], [CNP], [BookingDate], [BookingHour]) 
                                         VALUES (@InstitutionID, @FirstName, @LastName, @Email, @CNP, @BookingDate, @BookingHour)";
 
                     command.Parameters.Add("@InstitutionID", SqlDbType.Int).Value = request.InstitutionID;
@@ -49,7 +44,7 @@ namespace Service.Booking
             {
                 connection.Open();
                 SqlCommand command = connection.CreateCommand();
-                command.CommandText = @"SELECT BookingHour FROM [Bookings] WHERE BookingDate = @BookingDay";
+                command.CommandText = @"SELECT BookingHour FROM [DriverLicenseBooking] WHERE BookingDate = @BookingDay";
 
                 command.Parameters.Add("@BookingDay", SqlDbType.DateTime).Value = selectedDate;
 

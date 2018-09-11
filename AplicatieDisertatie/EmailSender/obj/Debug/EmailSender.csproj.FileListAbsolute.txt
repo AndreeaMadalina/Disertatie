@@ -1,0 +1,9 @@
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\bin\Debug\EmailSender.dll
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\bin\Debug\EmailSender.pdb
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\bin\Debug\Common.dll
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\bin\Debug\Common.pdb
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\obj\Debug\EmailSender.csprojAssemblyReference.cache
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\obj\Debug\EmailSender.csproj.CoreCompileInputs.cache
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\obj\Debug\EmailSender.csproj.CopyComplete
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\obj\Debug\EmailSender.dll
+E:\Disertatie\BookingApplication\AplicatieDisertatie\EmailSender\obj\Debug\EmailSender.pdb

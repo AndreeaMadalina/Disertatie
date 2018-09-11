@@ -1,7 +1,10 @@
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\bin\Debug\Service.Booking.exe.config
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\bin\Debug\Service.Booking.exe
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\bin\Debug\Service.Booking.pdb
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\bin\Debug\Common.dll
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\bin\Debug\Common.pdb
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\obj\Debug\Service.Booking.csprojAssemblyReference.cache
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\obj\Debug\Service.Booking.csproj.CoreCompileInputs.cache
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\obj\Debug\Service.Booking.csproj.CopyComplete
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\obj\Debug\Service.Booking.exe
 E:\Disertatie\BookingApplication\AplicatieDisertatie\Service.Booking\obj\Debug\Service.Booking.pdb

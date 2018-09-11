@@ -1,0 +1,5 @@
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Common\bin\Debug\Common.dll
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Common\bin\Debug\Common.pdb
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Common\obj\Debug\Common.csproj.CoreCompileInputs.cache
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Common\obj\Debug\Common.dll
+E:\Disertatie\BookingApplication\AplicatieDisertatie\Common\obj\Debug\Common.pdb

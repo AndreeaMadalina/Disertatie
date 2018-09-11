@@ -1,0 +1,131 @@
+﻿@using Common.DTO
+@model DriverLicenseModel
+@{
+    ViewBag.Title = "DriverLicense";
+}
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="Booking">
+            @using (Html.BeginForm("Register", "DriverLicense", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <h4>Driver license</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CNP, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.TextBoxFor(m => m.CNP, new { @class = "form-control" })
+                    </div>
+                </div>
+                <div class="form-group" style="white-space:nowrap">
+                    @Html.LabelFor(model => model.BookingDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        <div class="input-group" id="datepicker">
+                            @Html.EditorFor(model => model.BookingDate, new { htmlAttributes = new { @class = "datepicker" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                        @Html.ValidationMessageFor(model => model.BookingDate, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group" style="white-space:nowrap">
+                    @Html.LabelFor(m => m.Hour, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.Hour, (SelectList)ViewBag.GetHours, "    ", new { @class = "displayedHours" })
+                        @Html.HiddenFor(m => m.HourText, new { @class = "displayedHoursText" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Register" onclick="location.href='@Url.Action("Register", "DriverLicense")'" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+    <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
+    <script>
+        var disabledDays = ["9-17-2018", "9-20-2018"];
+
+        function nationalDays(date) {
+            var m = date.getMonth(), d = date.getDate(), y = date.getFullYear();
+            for (i = 0; i < disabledDays.length; i++) {
+                if ($.inArray((m + 1) + '-' + d + '-' + y, disabledDays) != -1 || new Date() > date) {
+                    return [false];
+                }
+            }
+            return [true];
+        }
+
+        function noWeekendsOrHolidays(date) {
+            var noWeekend = jQuery.datepicker.noWeekends(date);
+            return noWeekend[0] ? nationalDays(date) : noWeekend;
+        }
+
+        $(function () {
+            $(".datepicker").datepicker({
+                dateFormat: "mm-dd-yy",
+                minDate: 0,
+                beforeShowDay: noWeekendsOrHolidays
+            });
+        });
+
+        $(document).ready(function () {
+            $('.datepicker').on("change", function () {
+                var selectedDate = document.getElementsByClassName("datepicker")[0].value;
+                $.ajax({
+                    url: '@Url.Action("GetAvailableHoursForSelectedDate", "DriverLicense")',
+                    data: { selectedDate: selectedDate },
+                    datatype: "json",
+                    success: function (data) {
+                        var displayedHours = $('.displayedHours');
+                        displayedHours.empty();
+                        displayedHours.append(
+                            $('<option></option>').val(0).html(""));
+                        $.each(data, function (val, text) {
+                            displayedHours.append(
+                                $('<option></option>').val(val+1).html(text)
+                            );
+                        });
+
+                    },
+                })
+            });
+        });
+
+        $(function () {
+            $(".displayedHours").on("change", function () {
+                $(".displayedHoursText").val($(this).find("option:selected").text());
+            });
+        });
+    </script>
+}

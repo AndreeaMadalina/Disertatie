@@ -4,16 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C494D01F-BB0B-4335-8A19-CA1A6E583CC2}</ProjectGuid>
-    <OutputType>Exe</OutputType>
-    <RootNamespace>Service.Booking</RootNamespace>
-    <AssemblyName>Service.Booking</AssemblyName>
+    <ProjectGuid>{CB14A42E-CB59-410E-9B1E-F4EC6391CECB}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Common</RootNamespace>
+    <AssemblyName>Common</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -23,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -42,23 +41,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BookingReportsRepository.cs" />
-    <Compile Include="BookingRepository.cs" />
-    <Compile Include="CarDeletionRepository.cs" />
-    <Compile Include="DriverLicenseRepository.cs" />
-    <Compile Include="EmailSenderRepository.cs" />
-    <Compile Include="IdentificationRepository.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="DTO\BookingModel.cs" />
+    <Compile Include="DTO\BookingReportDateModel.cs" />
+    <Compile Include="DTO\BookingReportModel.cs" />
+    <Compile Include="DTO\CarDeletionModel.cs" />
+    <Compile Include="DTO\DriverLicenseModel.cs" />
+    <Compile Include="DTO\EmailTemplateType.cs" />
+    <Compile Include="DTO\IdentificationCardOrPassportModel.cs" />
+    <Compile Include="DTO\Institutions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Common\Common.csproj">
-      <Project>{CB14A42E-CB59-410E-9B1E-F4EC6391CECB}</Project>
-      <Name>Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

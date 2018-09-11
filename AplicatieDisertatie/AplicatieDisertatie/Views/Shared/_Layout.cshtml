@@ -24,9 +24,9 @@
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">@Html.ActionLink("About", "About", "Home", new { @class = "nav-link" })</li>
                     <li class="nav-item active">@Html.ActionLink("Contact", "Contact", "Home", new { @class = "nav-link" })</li>
-                    <li class="nav-item active">@Html.ActionLink("Booking", "Booking", "Booking", new { area = "" }, new { @class = "nav-link" })</li>
+                    <li class="nav-item active">@Html.ActionLink("Reports", "BookingReports", "BookingReports", new { area = "" }, new { @class = "nav-link" })</li>
                 </ul>
-                @Html.Partial("_LoginPartial")
+                @*@Html.Partial("_LoginPartial")*@
             </div>
         </nav>
     </nav>
@@ -34,7 +34,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+            <p>&copy; @DateTime.Now.Year - Booking Application</p>
         </footer>
     </div>
 
