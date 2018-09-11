@@ -32,6 +32,8 @@ namespace AplicatieDisertatie.Controllers
 				});
 			}
 
+			ViewBag.UserLogedId = AppSettings.User.Id;
+
             return View(viewFiles);
         }
 

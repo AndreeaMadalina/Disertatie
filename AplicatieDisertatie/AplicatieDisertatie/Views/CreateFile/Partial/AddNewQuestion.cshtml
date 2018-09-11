@@ -7,45 +7,47 @@
 <div class="form-horizontal" id="newQuestion">
 	@Html.ValidationSummary(true, "", new { @class = "text-danger" })
 	<div class="form-group">
-		@*<input type="hidden" id="QuestionVM_@(ViewBag.IndexItem + 1)__QuestionId" class="iHidden" name='QuestionList[@(Model.QuestionVM.QuestionId)].QuestionId' />*@
-		@Html.LabelFor(model => model.QuestionVM.QuestionText, htmlAttributes: new { @class = "control-label col-md-2" })
-		<div class="col-md-10 form-inline">
-			@Html.EditorFor(model => model.QuestionVM.QuestionText, new { htmlAttributes = new { @class = "form-control", @id = "qId_" + Model.QuestionVM.QuestionId, @onchange = "UpdateQuestionList(this)" } })
-			@Html.ValidationMessageFor(model => model.QuestionVM.QuestionText, "", new { @class = "text-danger" })
+		<div class="form-group">
+			@*<input type="hidden" id="QuestionVM_@(ViewBag.IndexItem + 1)__QuestionId" class="iHidden" name='QuestionList[@(Model.QuestionVM.QuestionId)].QuestionId' />*@
+			@Html.LabelFor(model => model.QuestionVM.QuestionText, htmlAttributes: new { @class = "control-label col-md-2" }, labelText: "Question")
+			<div class="col-md-10 form-inline">
+				@Html.EditorFor(model => model.QuestionVM.QuestionText, new { htmlAttributes = new { @class = "form-control", @id = "qId_" + Model.QuestionVM.QuestionId, @onchange = "UpdateQuestionList(this)" } })
+				@Html.ValidationMessageFor(model => model.QuestionVM.QuestionText, "", new { @class = "text-danger" })
 
-			@*<button type="button" class="btn btn-primary" id="add">Add</button>
+				@*<button type="button" class="btn btn-primary" id="add">Add</button>
 				<button type="button" class="btn btn-primary" id="remove">Remove</button>*@
-		</div>
-	</div>
-
-	@for (int i = 0; i < Model.QuestionVM.AnswersNo; i++)
-	{
-		<div class="form-group col-md" style="margin-left:30px">
-			@*<input type="hidden" id="QuestionOptionVM_@(ViewBag.IndexItem+1+i+1)__OptionId" class="iHidden" name='QuestionOptionVM[@(ViewBag.IndexItem+1+i+1)].OptionId' />*@
-			@if (Model.QuestionVM.TypeId == 1)
-			{
-			<div class="col-md custom-control custom-radio">
-				@*	@Html.RadioButton("Answer_" + i, string.Format("Answer{0}Question{1}", i, Model.QuestionVM.QuestionId), new { @id = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId, @class = "custom-control-input" })*@
-				<input type="radio" id=@("Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId) name="customRadio" class="custom-control-input" style="padding-right:3px" onchange = "UpdateQuestionList(this)">
-				@Html.Label("Answer", htmlAttributes: new { @class = "custom-control-label", @for = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId})
-
 			</div>
-			}
-			else if (Model.QuestionVM.TypeId == 2)
-			{
-				<div class="col-md custom-control custom-checkbox">
-					@Html.CheckBox("Answer_" + i, false, htmlAttributes: new { @id = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId, @class = "custom-control-input", @style = "margin-right: 3px", @onchange = "UpdateQuestionList(this)" })
-					@Html.Label("Answer", htmlAttributes: new { @class = "custom-control-label", @for = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId })
+		</div>
 
+		@for (int i = 0; i < Model.QuestionVM.AnswersNo; i++)
+		{
+			<div class="form-group col-md" style="margin-left:30px">
+				@*<input type="hidden" id="QuestionOptionVM_@(ViewBag.IndexItem+1+i+1)__OptionId" class="iHidden" name='QuestionOptionVM[@(ViewBag.IndexItem+1+i+1)].OptionId' />*@
+				@if (Model.QuestionVM.TypeId == 1)
+				{
+					<div class="col-md custom-control custom-radio">
+						@*	@Html.RadioButton("Answer_" + i, string.Format("Answer{0}Question{1}", i, Model.QuestionVM.QuestionId), new { @id = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId, @class = "custom-control-input" })*@
+						<input type="radio" id=@("Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId) name="customRadio" class="custom-control-input" style="padding-right:3px" onchange="UpdateQuestionList(this)">
+						@Html.Label("Answer", htmlAttributes: new { @class = "custom-control-label", @for = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId })
+
+					</div>
+				}
+				else if (Model.QuestionVM.TypeId == 2)
+				{
+					<div class="col-md custom-control custom-checkbox">
+						@Html.CheckBox("Answer_" + i, false, htmlAttributes: new { @id = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId, @class = "custom-control-input", @style = "margin-right: 3px", @onchange = "UpdateQuestionList(this)" })
+						@Html.Label("Answer", htmlAttributes: new { @class = "custom-control-label", @for = "Check_aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId })
+
+					</div>
+				}
+				@*@Html.LabelFor(model => model.QuestionOptionVM.Answer, htmlAttributes: new { @class = "control-label col-md-2" })*@
+				<div class="col-md-10">
+					@Html.EditorFor(model => model.QuestionOptionVM.Answer, new { htmlAttributes = new { @class = "form-control", @id = "aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId, @onchange = "UpdateQuestionList(this)" } })
+					@Html.ValidationMessageFor(model => model.QuestionOptionVM.Answer, "", new { @class = "text-danger" })
 				</div>
-			}
-			@*@Html.LabelFor(model => model.QuestionOptionVM.Answer, htmlAttributes: new { @class = "control-label col-md-2" })*@
-			<div class="col-md-10">
-				@Html.EditorFor(model => model.QuestionOptionVM.Answer, new { htmlAttributes = new { @class = "form-control", @id = "aId_" + ( i + 1 ) + "_qId_" + Model.QuestionVM.QuestionId, @onchange = "UpdateQuestionList(this)" } })
-				@Html.ValidationMessageFor(model => model.QuestionOptionVM.Answer, "", new { @class = "text-danger" })
 			</div>
-		</div>
-	}
+		}
+	</div>
 </div>
 
 <script>

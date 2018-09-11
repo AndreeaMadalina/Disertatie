@@ -71,7 +71,7 @@
 
 							@if (question.TypeId == 2)
 							{
-								List<int> validR = new List<int>();
+								List<int> uservalidR = new List<int>();
 								var qAns = Model.UserAnswers.Where(u => u.QuestionId == question.QuestionId);
 								foreach (var option in question.QuestionOptions)
 								{
@@ -84,7 +84,7 @@
 										</div>
 										idList.Add("quId_" + question.QuestionId + "_ansId_" + option.OptionId);
 
-										validR.Add(option.OptionId);
+										uservalidR.Add(option.OptionId);
 									}
 									else
 									{
@@ -95,9 +95,9 @@
 									}
 								}
 
-								foreach (var a in question.QuestionOptions)
+								foreach (var a in uservalidR)
 								{
-									if (!validR.Exists(x => x == a.OptionId))
+									if (question.QuestionOptions.ToList().Exists(x => x.OptionId == a && x.IsValid.Value == false))
 									{
 										isCorrectMultipleAnswer = false;
 									}
@@ -125,7 +125,7 @@
 							}
 							if (question.TypeId == 2)
 							{
-								var correctAnswers = question.QuestionOptions.Where(a => a.IsValid.Value);
+								var correctAnswers = question.QuestionOptions.Where(a => a.IsValid.Value).ToList();
 								string correctAns = string.Empty;
 								List<string> ansList = new List<string>();
 								foreach (var c in correctAnswers)

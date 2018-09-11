@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -17,6 +18,7 @@ namespace AplicatieDisertatie.Models
 
 		public int FileId { get; set; }
 		public string AuthorId { get; set; }
+		[Required]
 		public string FileName { get; set; }
 		public string TemplateFile { get; set; }
 		public System.DateTime UpdatedOn { get; set; }

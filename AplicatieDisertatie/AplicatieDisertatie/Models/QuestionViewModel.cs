@@ -17,6 +17,7 @@ namespace AplicatieDisertatie.Models
 
 		public int QuestionId { get; set; }
 		public int FileId { get; set; }
+		[Required]
 		public int TypeId { get; set; }
 
 		[Required]

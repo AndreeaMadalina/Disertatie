@@ -48,7 +48,20 @@ namespace AplicatieDisertatie.Controllers
 
 			if (questionTypes != null)
 			{
-				ViewBag.QuestionTypes = new SelectList(questionTypes.Select(x => x.Type));
+				var l = new List<SelectListItem>();
+				foreach (var item in questionTypes)
+				{
+					l.Add(new SelectListItem
+					{
+						Text = item.Type,
+						Value = item.TypeId.ToString(),
+						// Put all sorts of business logic in here
+						Selected = item.TypeId == (int)QuestionTypes.SingleChoice ? true : false
+					});
+				}
+
+				ViewBag.QuestionTypes = l;// new SelectList(questionTypes.Select(x => x.Type));
+				
 			}
 			
 			return View(new CommonViewModel());
@@ -98,7 +111,7 @@ namespace AplicatieDisertatie.Controllers
 			}
 			catch(Exception ex)
 			{
-				return View();
+				return RedirectToAction("Index", "File");
 			}
 		}
 
